@@ -24,9 +24,6 @@ const ProductCard = ({ product }: Props) => {
     dispatch(addItem(product))
   }
 
-  const items = useSelector((state:RootState) => state.cart.items);
-  console.log(items)
-
   return (
     <div className='p-4'>
         {/* Image */}
