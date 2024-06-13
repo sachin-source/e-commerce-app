@@ -46,6 +46,10 @@ const Cart = () => {
                                             <h1 className='md:text-lg text-sm font-semibold' >Category : {item.category}</h1>
                                             <h1 className='md:text-2xl text-lg font-bold text-blue-950' >${item.price}</h1>
                                             <h1 className='md:text-lg text-sm font-semibold' >Quantity : {item.quantity}</h1>
+                                            <div className="flex items-center mt-4 space-x-2">
+                                                <Button>Add More</Button>
+                                                <Button variant={'destructive'} >Remove</Button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
