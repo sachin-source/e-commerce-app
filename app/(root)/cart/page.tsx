@@ -57,7 +57,11 @@ const Cart = () => {
                         })}
                     </div>
                     {/* Cart Summary */}
-
+                    <div className="xl:col-span-2">
+                        <div className="bg-indigo-950 sticky top-[25vh] p-6 rounded-lg">
+                            <div className="text-center mt-8 mb-8 text-white text-zxl font-semibold">Summary</div>
+                        </div>
+                    </div>
                 </div>
             )}
         </div>
