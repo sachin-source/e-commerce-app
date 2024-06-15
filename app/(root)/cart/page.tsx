@@ -1,10 +1,12 @@
 "use client";
+import PayPalButton from '@/components/Helper/PayPalButton';
 import { Button } from '@/components/ui/button';
-import { CartItem, addItem, removeItem } from '@/store/cartSlice';
+import { CartItem, addItem, clearCart, removeItem } from '@/store/cartSlice';
 import { RootState } from '@/store/store';
 import { useUser } from '@clerk/nextjs';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -16,14 +18,20 @@ const Cart = () => {
     // Calculate the total price
     const totalPrice = items.reduce((total, item) => total + (item.price + item.quantity), 0);
     const vat = (+totalPrice * 0.15).toFixed(2);
-    const totalPreviewWithVat = (+totalPrice + +vat).toFixed(2);
+    const totalPriceWithVat = (+totalPrice + +vat).toFixed(2);
 
     // Get authenticate user
     const { user } = useUser()
     const dispatch = useDispatch()
+    const router = useRouter()
     
     const addItemHandler = (item:CartItem) => dispatch(addItem(item));
     const removeItemHandler = (id:number) => dispatch(removeItem({id}));
+
+    const handleSuccess = (details:any) => {
+        router.push('/success');
+        dispatch(clearCart())
+    }
 
     return (
         <div className='mt-8 min-h-[60vh]' >
@@ -85,7 +93,7 @@ const Cart = () => {
                                 <div className="w-full h-[1.2px] bg-white bg-opacity-20"></div>
                                 <div className="flex mt-6 mb-6 text-xl uppercase font-semibold text-white items-center justify-between">
                                     <span>Total</span>
-                                    <span>${totalPreviewWithVat}</span>
+                                    <span>${totalPriceWithVat}</span>
                                 </div>
                                 {!user && (
                                     <Link href="/sign-in" >
@@ -94,7 +102,8 @@ const Cart = () => {
                                 )}
 
                                 {user && (
-                                    <Button className='bg-orange-500 w-full' >Paypal</Button>
+                                    // <Button className='bg-orange-500 w-full' >Paypal</Button>
+                                    <PayPalButton amount={totalPriceWithVat} onSuccess={handleSuccess} ></PayPalButton>
                                 )}
                         </div>
                     </div>
